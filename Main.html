@@ -1,0 +1,303 @@
+<html>
+<head>
+<style>
+body { 
+  background: url(EqBg.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.center {
+  padding: 70px 0;
+  border: 3px solid green;
+  text-align: center;
+}
+
+table {  
+	background: url(audio.jpeg) no-repeat center center fixed; 
+    color: #333;
+    font-family: Helvetica, Arial, sans-serif;
+    width: 550px; 
+    collapse; border-spacing: 3; 
+}
+
+td, th {  
+    border: 1px solid transparent; /* No more visible border */
+    height: 30px; 
+    transition: all 0.3s;  /* Simple transition for hover effect */
+}
+
+th {  
+    background: #A9D0F5;  /* Darken header a bit */
+    font-weight: bold;
+}
+
+td {  
+    background: #FAFAFA;
+    text-align: center;
+}
+
+/* Cells in even rows (2,4,6...) are one color */        
+tr:nth-child(even) td { background: #F1F1F1; }   
+
+/* Cells in odd rows (1,3,5...) are another (excludes header cells)  */        
+tr:nth-child(odd) td { background: #FEFEFE; }  
+
+tr td:hover { background: #5AF; color: #8CA; }  
+/* Hover cell effect! */
+
+td.selected {
+  background: #5AF; color: #8CA;
+}
+
+#outPopUp {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  z-index: 15;
+  top: 5%;
+  left: 25px;
+}
+
+
+#teamA {
+  background: url(PicBg.GIF); 
+  position: absolute;
+  width: 128px;
+  height: 600px;
+  z-index: 15;
+  top: 0%;
+  left: 15%;
+  text-align: center;
+}
+
+#teamB {
+  background: url(PicBg.GIF); 
+  position: absolute;
+  width: 125px;
+  height: 600px;
+  z-index: 15;
+  top: 0%;
+  left: 77.4%;
+  text-align: center;
+}
+
+#teamC {
+  background: url(EqBg.jpg); 
+  position: absolute;
+  width: 116px;
+  height: 126px;
+  z-index: 15;
+  top: 75%;
+  left: 47%;
+  text-align: center;
+}
+
+</style>
+
+<script>
+function btnClickDummy(text) {
+	text.value = parseInt(text.value) + 100;
+}
+
+function changeColor(myTd){
+  myTxt.innerText = myTd.id; 
+  if(myTd.style.backgroundColor == 'rgb(85, 170, 255)')
+    myTd.style.backgroundColor = '';
+  else
+    myTd.style.backgroundColor = '#5AF';
+}
+
+function myFunctionA(chkBox) {
+	//alert(chkBox.name);
+	var textA = document.getElementById("teamAtext");
+	//alert(textA.value);
+	if (chkBox.checked == true) {
+    if (chkBox.name == 1) {
+      textA.value = parseInt(textA.value) + 100;  
+    } else if (chkBox.name == 2) {
+      textA.value = parseInt(textA.value) + 200;  
+    } else if (chkBox.name == 3) {
+      textA.value = parseInt(textA.value) + 300;  
+    } else if (chkBox.name == 4) {
+      textA.value = parseInt(textA.value) + 400;  
+    } else if (chkBox.name == 5) {
+      textA.value = parseInt(textA.value) + 500;  
+    }		
+	} else {
+    if (chkBox.name == 1) {
+      textA.value = parseInt(textA.value) - 100;  
+    } else if (chkBox.name == 2) {
+      textA.value = parseInt(textA.value) - 200;  
+    } else if (chkBox.name == 3) {
+      textA.value = parseInt(textA.value) - 300;  
+    } else if (chkBox.name == 4) {
+      textA.value = parseInt(textA.value) - 400;  
+    } else if (chkBox.name == 5) {
+      textA.value = parseInt(textA.value) - 500;  
+    }   
+	}
+}
+
+function myFunctionB(chkBox) {
+	//alert(chkBox.checked);
+	var textB = document.getElementById("teamBtext");
+	//alert(textB.value);
+	if (chkBox.checked == true) {
+    if (chkBox.name == 1) {
+      textB.value = parseInt(textB.value) + 100;  
+    } else if (chkBox.name == 2) {
+      textB.value = parseInt(textB.value) + 200;  
+    } else if (chkBox.name == 3) {
+      textB.value = parseInt(textB.value) + 300;  
+    } else if (chkBox.name == 4) {
+      textB.value = parseInt(textB.value) + 400;  
+    } else if (chkBox.name == 5) {
+      textB.value = parseInt(textB.value) + 500;  
+    }   
+
+	} else {
+    if (chkBox.name == 1) {
+      textB.value = parseInt(textB.value) - 100;  
+    } else if (chkBox.name == 2) {
+      textB.value = parseInt(textB.value) - 200;  
+    } else if (chkBox.name == 3) {
+      textB.value = parseInt(textB.value) - 300;  
+    } else if (chkBox.name == 4) {
+      textB.value = parseInt(textB.value) - 400;  
+    } else if (chkBox.name == 5) {
+      textB.value = parseInt(textB.value) - 500;  
+    }   
+	}
+}
+
+function teamRound() {
+  window.open('TeamRound.html', 'newwindow', 'directories=no, location=no, titlebar=no, status=no, toolbar=no, menubar=no, resizable=yes, width=950, height=540, top=100, left=200');return false;
+}
+
+
+</script>
+</head>	
+
+<body>
+
+<div id="outPopUp">  
+  <Table>
+    <TR>
+    <TH><a href="Song1.html" target="content">Points</a></TH>
+    <TH><a href="TeamRound.html" target="content">Audio </a></TH>
+    <TH><a href="TeamRound.html" target="content">Video </a></TH>
+    <TH><a href="TeamRound.html" target="content" data-title="Door Darshan Paas Mein">DDPM</a></TH>
+    <!--<TH><a href="TeamRound.html" target="content">UltaPulta</a></TH>-->
+    </TR>
+
+    <TR>
+    <TD>100</TD>  
+    <TD id="1" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio1.html" target="content">#1</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="1" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video1.html" target="content">#1</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="1" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke1.html" target="content">#1</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="1" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Quiz1.html" target="content">#1</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD>
+    <TD id="2" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio2.html" target="content">#2</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="2" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video2.html" target="content">#2</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="2" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke2.html" target="content">#2</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="2" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Quiz2.html" target="content">#2</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD>
+    <TD id="3" onclick="changeColor(this);"><Input name="2" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio3.html" target="content">#3</a>&nbsp;&nbsp;&nbsp;<Input name="2" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="3" onclick="changeColor(this);"><Input name="2" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video3.html" target="content">#3</a>&nbsp;&nbsp;&nbsp;<Input name="2" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="3" onclick="changeColor(this);"><Input name="2" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke3.html" target="content">#3</a>&nbsp;&nbsp;&nbsp;<Input name="2" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="3" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Quiz3.html" target="content">#3</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD>
+    <TD id="4" onclick="changeColor(this);"><Input name="2" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio4.html" target="content">#4</a>&nbsp;&nbsp;&nbsp;<Input name="2" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="4" onclick="changeColor(this);"><Input name="2" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video4.html" target="content">#4</a>&nbsp;&nbsp;&nbsp;<Input name="2" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="4" onclick="changeColor(this);"><Input name="2" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke4.html" target="content">#4</a>&nbsp;&nbsp;&nbsp;<Input name="2" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="4" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Quiz4.html" target="content">#4</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD>  
+    <TD id="5" onclick="changeColor(this);"><Input name="3" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio5.html" target="content">#5</a>&nbsp;&nbsp;&nbsp;<Input name="3" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="5" onclick="changeColor(this);"><Input name="3" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video5.html" target="content">#5</a>&nbsp;&nbsp;&nbsp;<Input name="3" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="5" onclick="changeColor(this);"><Input name="3" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke5.html" target="content">#5</a>&nbsp;&nbsp;&nbsp;<Input name="3" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="5" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Quiz5.html" target="content">#5</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD>
+    <TD id="6" onclick="changeColor(this);"><Input name="3" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio6.html" target="content">#6</a>&nbsp;&nbsp;&nbsp;<Input name="3" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="6" onclick="changeColor(this);"><Input name="3" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video6.html" target="content">#6</a>&nbsp;&nbsp;&nbsp;<Input name="3" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="6" onclick="changeColor(this);"><Input name="3" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke6.html" target="content">#6</a>&nbsp;&nbsp;&nbsp;<Input name="3" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="6" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Quiz6.html" target="content">#6</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD>
+    <TD id="7" onclick="changeColor(this);"><Input name="4" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio7.html" target="content">#7</a>&nbsp;&nbsp;&nbsp;<Input name="4" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="7" onclick="changeColor(this);"><Input name="4" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video7.html" target="content">#7</a>&nbsp;&nbsp;&nbsp;<Input name="4" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="7" onclick="changeColor(this);"><Input name="4" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke7.html" target="content">#7</a>&nbsp;&nbsp;&nbsp;<Input name="4" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="7" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Comedy1.html" target="content">#7</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD>
+    <TD id="8" onclick="changeColor(this);"><Input name="4" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio8.html" target="content">#8</a>&nbsp;&nbsp;&nbsp;<Input name="4" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="8" onclick="changeColor(this);"><Input name="4" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video8.html" target="content">#8</a>&nbsp;&nbsp;&nbsp;<Input name="4" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="8" onclick="changeColor(this);"><Input name="4" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke8.html" target="content">#8</a>&nbsp;&nbsp;&nbsp;<Input name="4" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="8" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Comedy2.html" target="content">#8</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD>
+    <TD id="9" onclick="changeColor(this);"><Input name="5" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio9.html" target="content">#9</a>&nbsp;&nbsp;&nbsp;<Input name="5" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="9" onclick="changeColor(this);"><Input name="5" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video9.html" target="content">#9</a>&nbsp;&nbsp;&nbsp;<Input name="5" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="9" onclick="changeColor(this);"><Input name="5" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke9.html" target="content">#9</a>&nbsp;&nbsp;&nbsp;<Input name="5" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="9" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Comedy3.html" target="content">#9</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+    <TR>
+    <TD>100</TD><!-- <a href="Comedy10.html" target="content"> -->
+    <TD id="10" onclick="changeColor(this);"><Input name="5" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="audio10.html" target="content">#10</a>&nbsp;&nbsp;&nbsp;<Input name="5" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="10" onclick="changeColor(this);"><Input name="5" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="video10.html" target="content">#10</a>&nbsp;&nbsp;&nbsp;<Input name="5" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <TD id="10" onclick="changeColor(this);"><Input name="5" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Karaoke10.html" target="content">#10</a>&nbsp;&nbsp;&nbsp;<Input name="5" type="checkbox" onclick="myFunctionB(this)"></TD>
+    <!--
+    <TD id="10" onclick="changeColor(this);"><Input name="1" type="checkbox" onclick="myFunctionA(this)">&nbsp;&nbsp;&nbsp;<a href="Comedy4.html" target="content">#10</a>&nbsp;&nbsp;&nbsp;<Input name="1" type="checkbox" onclick="myFunctionB(this)"></TD>
+    -->
+    </TR>
+  </table>
+
+  <Form>
+    <Table width="100%">
+    <TR><TH>
+    <Input type="button" name="teamAbtn" value="Team Deewane" onclick="btnClick(teamAtext)">
+    <Input type="text" Id="teamAtext" name="teamAtext" value="0" size="10">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    [ <label Id="myTxt">0</label> ]
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <Input type="button" name="teamBbtn" value="Team Mastane" onclick="btnClick(teamBtext)">
+    <Input type="text" Id="teamBtext" name="teamBtext" value="0" size="10">
+    </TH></TR>
+    </Table>
+  </form>
+</div>
+</body>
+</html>
