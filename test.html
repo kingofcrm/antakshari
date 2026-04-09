@@ -2,6 +2,15 @@
 <head>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.neon-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 31px;
+    color: #F5C167;
+
+}
+
 body { 
   background: url(EqBg.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
@@ -9,99 +18,142 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
-#teamC {
-  background: url(EqBg.jpg); 
+#myDiv {
   position: absolute;
-  width: 116px;
-  height: 32px;
+  width: 200px;
+  height: 60px;
   z-index: 15;
-  top: 94%;
-  left: 17%;
+  top: 8%;
+  left: 83%;
   text-align: center;
 }
-#teamD {
-  background: url(EqBg.jpg); 
+#teamDeewane { 
   position: absolute;
-  width: 116px;
-  height: 32px;
+  width: 400px;
+  height: 120px;
   z-index: 15;
-  top: 94%;
-  left: 68%;
+  top: 82%;
+  left: 10%;
   text-align: center;
+  display: none;
+}
+#teamMastaane {
+  position: absolute;
+  width: 400px;
+  height: 120px;
+  z-index: 15;
+  top: 82%;
+  left: 60%;
+  text-align: center;
+  display: none;
 }
 #vinDiv {
   background: url(EqBg.jpg); 
   position: absolute;
-  width: 117px;
-  height: 117px;
+  width: 170px;
+  height: 150px;
   z-index: 15;
-  top: 79.5%;
-  left: 49%;
+  top: 78%;
+  left: 43%;
   text-align: center;
+}
+#teamDiv {
+  display: none;
 }
 </style>
 </head>
 
 <body>
+   <center>
    <table>
       <tr><td colspan="2">
-         <img src="PicBg.gif" width="1350" height="50">
+         <img src="PicBg.GIF" width="1350" height="50">
       </td></tr>
       <tr>         
-         <td><iframe name="menu" src="Main.html" width="580" height="440" style="border:none;"></iframe></td>
+         <td><iframe name="menu" src="Main.html" width="600" height="500" style="border:none;"></iframe></td>
          <td valign="middle" align="left">
-          <!--<img src="HBD Vinod61.jpg" width="770" height="40">-->
-          <iframe name="content" src="Song1.html" width="770" height="440" style="border:none;"></iframe></td>
+         <iframe name="content" src="Song1.html" width="880" height="500" style="border:none;"></iframe></td>
       </tr>
    <table>
-</body>
+   </center>
+
+<div id="vinDiv">
+   <img src="Team\Vinod.jpg" width="140" height="150" onclick="myDivDisplayHideFunction();">
+</div>
+<BR><BR><BR><BR><BR><BR><BR><BR><BR>
 
 <!--
-<div id="teamC">
-<BR>
-<img src="Team\Vinod.jpg" width="94" height="94">
+<div id="myDiv">
+   <img src="Since.PNG" width="170" height="55" onclick="myDivDisplayHideFunction();">
 </div>
-<a href="Song1.html" target="content">
-<video width="140" height="130" autoplay muted loop>
-  <source src="Team\Team.mp4" type="video/mp4">
-</video>
-</a>
 -->
-<!--<center><img src="HBD Vinod61.jpg" width="1350" height="50"></center>-->
-<div id="teamC">
-   <img src="Team\Team Deewane2.PNG" width="200" height="33">
+<div id="teamDeewane">
+   <font class="neon-text">
+      Team Deewane 
+      </font>
+   <!--<img src="Team\Deewane1.PNG" width="400" height="120" onclick="myDivDisplayHideFunction();">-->
 </div>
-<div id="teamD">
-   <img src="Team\Team Mastaane2.PNG" width="230" height="33">
+
+<div id="teamMastaane">
+   <font class="neon-text">
+         &nbsp;&nbsp;&nbsp;Team Mastaane
+   </font>
+   <!--<img src="Team\Mastaane1.PNG" width="400" height="120" onclick="myDivDisplayHideFunction();">-->
 </div>
-<div id="vinDiv">
-   <img src="Team\Vinod.jpg" width="112" height="114">
-</div>
+
+
+<script>
+function myDivDisplayHideFunction() {
+  var x = document.getElementById("teamDeewane");
+  if (x.style.display == "none" || x.style.display == "") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  } 
+
+  var y = document.getElementById("teamMastaane");
+  if (y.style.display == "none" || y.style.display == "") {
+    y.style.display = "block";
+  } else {
+    y.style.display = "none";
+  }
+} 
+</script>
+
+<div id="teamDiv">
+   <font class="neon-text">
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      Dinesh,Pramod,Reena,Garima,Dhwani 
+      </font> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <font class="neon-text">
+         Nitisha,Maddy,Arty,Amar,Nisarg,Sam&nbsp;&nbsp;
+      </font>
+</div>      
 <!--
-<font face="Copperplate" size="6" color="White">
-Nancy, Reena, Garima, Dinesh, Pramod, Sam, Nisarg
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-Amar, Jay, Nitisha, Maddy, Arty, Dhwani
-</font>
-<BR><BR><BR><BR><BR>
+<table width="100%">
+   <tr>
+   <td>
+      <p align="left">
+      <font class="neon-text">
+      Nancy,Reena,Garima,Dhwani,Dinesh,Pramod,Sam 
+      </font>
+      </p>
+   </td>
+   <td>
+      <p align="right">
+      <font class="neon-text">
+         Amar, Jay, Nisarg, Nitisha, Maddy, Arty&nbsp;&nbsp;
+      </font>
+      </p>
+   </td>
+   </tr>
+</table>
 -->
-<center>
-  <img src="Team\Nancy.jpg" draggable="true" ondragstart="drag(event)" id="drag8" width="84" height="88">
-  <img src="Team\Reena.jpg" draggable="true" ondragstart="drag(event)" id="drag10" width="84" height="88">
-  <img src="Team\Nitisha.jpg" draggable="true" ondragstart="drag(event)" id="drag7" width="84" height="88">
-  <img src="Team\Amar.jpg" draggable="true" ondragstart="drag(event)" id="drag1" width="84" height="88">
-  <img src="Team\Pramod.jpg" draggable="true" ondragstart="drag(event)" id="drag2" width="84" height="88">
-  <img src="Team\Sameer.jpg" draggable="true" ondragstart="drag(event)" id="drag4" width="84" height="88">
-  <img src="Team\Nisarg.jpg" draggable="true" ondragstart="drag(event)" id="drag2" width="84" height="88">
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <!--<img src="Team\Arun.jpg" draggable="true" ondragstart="drag(event)" id="drag2" width="80" height="88">-->
-  <img src="Team\Garima.jpg" draggable="true" ondragstart="drag(event)" id="drag6" width="84" height="88">
-  <!--<img src="Team\Monal.jpg" draggable="true" ondragstart="drag(event)" id="drag2" width="80" height="88">-->
-  <img src="Team\Dinesh.jpg" draggable="true" ondragstart="drag(event)" id="drag2" width="84" height="88">
-  <img src="Team\Jay.jpg" draggable="true" ondragstart="drag(event)" id="drag3" width="84" height="88">
-  <img src="Team\Madhuri.jpg" draggable="true" ondragstart="drag(event)" id="drag9" width="84" height="88">
-  <img src="Team\Arty.jpg" draggable="true" ondragstart="drag(event)" id="drag4" width="84" height="88">
-  <img src="Team\Dhwani.jpg" draggable="true" ondragstart="drag(event)" id="drag4" width="84" height="88">
-</center>
+
+</body>
 </html>
