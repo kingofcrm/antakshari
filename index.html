@@ -9,15 +9,182 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
+#login-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.75);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease;
+}
+#login-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+#login-card {
+  background: rgba(60, 10, 50, 0.92);
+  border: 1px solid #9b3a7e;
+  border-radius: 10px;
+  padding: 40px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 320px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.6);
+}
+#login-card h2 {
+  color: #e8a0d0;
+  margin: 0 0 8px 0;
+  font-family: Arial, sans-serif;
+  letter-spacing: 1px;
+}
+#login-card input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 5px;
+  border: 1px solid #9b3a7e;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+#login-card input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+#login-card button {
+  width: 100%;
+  padding: 10px;
+  background: #7a1a5e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#login-card button:hover:not(:disabled) {
+  background: #9b3a7e;
+}
+#login-card button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+#login-error {
+  color: #ff4444;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-align: center;
+  min-height: 20px;
+}
+#login-lockout {
+  color: #ff4444;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-align: center;
+  display: none;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-10px); }
+  40%      { transform: translateX(10px); }
+  60%      { transform: translateX(-8px); }
+  80%      { transform: translateX(8px); }
+}
+#login-card.shake {
+  animation: shake 0.4s ease;
+}
 </style>
 </head>
 
 <body>
+<div id="login-overlay">
+  <div id="login-card">
+    <h2>Antakshari</h2>
+    <input type="text" id="login-username" placeholder="Username" autocomplete="off">
+    <input type="password" id="login-password" placeholder="Password">
+    <button id="login-btn" onclick="doLogin()">Login</button>
+    <div id="login-error"></div>
+    <div id="login-lockout">Invalid Login. Please get in touch with Vinod Shivhare to request access.</div>
+  </div>
+</div>
   <audio autoplay>
     <source src="AaDekheZara.mp3#t=133,463" type="audio/mpeg">
   </audio>
 
   <a href="Start.html" style="color:#6a225a">HomePage</a> 
+<script>
+  var loginAttempts = 0;
+  var MAX_ATTEMPTS = 2;
+
+  function doLogin() {
+    var username = document.getElementById('login-username').value.trim();
+    var password = document.getElementById('login-password').value.trim();
+
+    fetch('security.md?nocache=' + Date.now())
+      .then(function(r) { return r.text(); })
+      .then(function(text) {
+        var creds = parseCreds(text);
+        var valid = creds.some(function(c) {
+          return c.username === username && c.password === password;
+        });
+
+        if (valid) {
+          var overlay = document.getElementById('login-overlay');
+          overlay.classList.add('fade-out');
+          setTimeout(function() { overlay.style.display = 'none'; }, 650);
+        } else {
+          loginAttempts++;
+          var card = document.getElementById('login-card');
+          card.classList.remove('shake');
+          void card.offsetWidth;
+          card.classList.add('shake');
+
+          if (loginAttempts >= MAX_ATTEMPTS) {
+            document.getElementById('login-username').disabled = true;
+            document.getElementById('login-password').disabled = true;
+            document.getElementById('login-btn').disabled = true;
+            document.getElementById('login-error').textContent = '';
+            document.getElementById('login-lockout').style.display = 'block';
+          } else {
+            document.getElementById('login-error').textContent = 'Incorrect username or password. Please try again.';
+          }
+        }
+      })
+      .catch(function() {
+        document.getElementById('login-error').textContent = 'Could not load security file. Please try again.';
+      });
+  }
+
+  function parseCreds(text) {
+    var lines = text.split('\n').map(function(l) { return l.trim(); });
+    var creds = [];
+    var current = {};
+    lines.forEach(function(line) {
+      if (line.startsWith('username:')) {
+        current = { username: line.substring('username:'.length).trim() };
+      } else if (line.startsWith('password:')) {
+        current.password = line.substring('password:'.length).trim();
+        if (current.username !== undefined) {
+          creds.push(current);
+          current = {};
+        }
+      }
+    });
+    return creds;
+  }
+
+  document.getElementById('login-password').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+  document.getElementById('login-username').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+</script>
 </body>
 </html>
 
