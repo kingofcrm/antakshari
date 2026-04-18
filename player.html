@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antakshari YouTube Player</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    .player-wrapper {
+      width: 100%;
+      max-width: 960px;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #000;
+      margin-top: 1rem;
+    }
+    iframe {
+      border: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hidden-audio {
+      width: 1px;
+      height: 1px;
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      opacity: 0;
+    }
+    .hint {
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .hint strong {
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <div class="player-wrapper">
+    <div class="hint" id="hintText">Loading player...</div>
+    <div class="video-container" id="videoContainer" style="display:none;"></div>
+    <div id="hiddenAudio"></div>
+  </div>
+
+  <script>
+    function parseQuery() {
+      var query = window.location.search.substring(1);
+      var pairs = query.split('&');
+      var params = {};
+      pairs.forEach(function(pair) {
+        var parts = pair.split('=');
+        if (parts.length === 2) {
+          params[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+        }
+      });
+      return params;
+    }
+
+    function buildEmbedUrl(id, options) {
+      var params = [
+        'autoplay=1',
+        'mute=' + (options.mute ? '1' : '0'),
+        'controls=' + (options.controls ? '1' : '0'),
+        'rel=0',
+        'modestbranding=1',
+        'playsinline=1',
+        'end=30',
+        'enablejsapi=1'
+      ];
+      if (window.location.protocol !== 'file:' && window.location.origin) {
+        params.push('origin=' + encodeURIComponent(window.location.origin));
+      }
+      return 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?' + params.join('&');
+    }
+
+    var params = parseQuery();
+    var mode = (params.mode || 'video').toLowerCase();
+    var videoId = params.video;
+    var audioId = params.audio || params.video;
+    var hint = document.getElementById('hintText');
+    var videoContainer = document.getElementById('videoContainer');
+    var hiddenAudio = document.getElementById('hiddenAudio');
+
+    if (!videoId) {
+      hint.innerHTML = 'No video selected. Please choose a question from the main menu.';
+    } else if (mode === 'audio') {
+      hint.innerHTML = '<strong>Audio Round:</strong> Playing a YouTube song for 30 seconds. Video is hidden.';
+      var audioIframe = document.createElement('iframe');
+      audioIframe.src = buildEmbedUrl(videoId, { mute: false, controls: 0 });
+      audioIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      audioIframe.className = 'hidden-audio';
+      hiddenAudio.appendChild(audioIframe);
+    } else if (mode === 'video') {
+      hint.innerHTML = '<strong>Video Round:</strong> Playing the video muted for 30 seconds.';
+      videoContainer.style.display = 'block';
+      var videoIframe = document.createElement('iframe');
+      videoIframe.src = buildEmbedUrl(videoId, { mute: true, controls: 1 });
+      videoIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      videoIframe.allowFullscreen = true;
+      videoContainer.appendChild(videoIframe);
+    } else if (mode === 'ulta') {
+      hint.innerHTML = '<strong>Ulta Pulta Round:</strong> Video is playing muted while a different song audio plays for 30 seconds.';
+      videoContainer.style.display = 'block';
+      var videoIframe = document.createElement('iframe');
+      videoIframe.src = buildEmbedUrl(videoId, { mute: true, controls: 1 });
+      videoIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      videoIframe.allowFullscreen = true;
+      videoContainer.appendChild(videoIframe);
+
+      var audioIframe = document.createElement('iframe');
+      audioIframe.src = buildEmbedUrl(audioId, { mute: false, controls: 0 });
+      audioIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      audioIframe.className = 'hidden-audio';
+      hiddenAudio.appendChild(audioIframe);
+    } else {
+      hint.innerHTML = 'Unknown mode: ' + mode + '. Use mode=audio, mode=video, or mode=ulta.';
+    }
+  </script>
+</body>
+</html>
