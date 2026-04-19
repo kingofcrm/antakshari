@@ -78,65 +78,84 @@
       return params;
     }
 
-    function buildEmbedUrl(id, options) {
-      var params = [
-        'autoplay=1',
-        'mute=' + (options.mute ? '1' : '0'),
-        'controls=' + (options.controls ? '1' : '0'),
-        'rel=0',
-        'modestbranding=1',
-        'playsinline=1',
-        'end=30',
-        'enablejsapi=1'
-      ];
-      if (window.location.protocol !== 'file:' && window.location.origin) {
-        params.push('origin=' + encodeURIComponent(window.location.origin));
-      }
-      return 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?' + params.join('&');
+    function loadUrls(mode, question) {
+      var fileName = mode === 'audio' ? 'Audio.txt' : mode === 'video' ? 'Video.txt' : 'UltaPulta.txt';
+      return fetch(fileName)
+        .then(response => response.text())
+        .then(text => {
+          var lines = text.trim().split('\n');
+          return lines[question - 1];
+        });
     }
 
     var params = parseQuery();
     var mode = (params.mode || 'video').toLowerCase();
-    var videoId = params.video;
-    var audioId = params.audio || params.video;
+    var question = parseInt(params.question) || 1;
     var hint = document.getElementById('hintText');
     var videoContainer = document.getElementById('videoContainer');
     var hiddenAudio = document.getElementById('hiddenAudio');
 
-    if (!videoId) {
-      hint.innerHTML = 'No video selected. Please choose a question from the main menu.';
-    } else if (mode === 'audio') {
-      hint.innerHTML = '<strong>Audio Round:</strong> Playing a YouTube song for 30 seconds. Video is hidden.';
-      var audioIframe = document.createElement('iframe');
-      audioIframe.src = buildEmbedUrl(videoId, { mute: false, controls: 0 });
-      audioIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      audioIframe.className = 'hidden-audio';
-      hiddenAudio.appendChild(audioIframe);
-    } else if (mode === 'video') {
-      hint.innerHTML = '<strong>Video Round:</strong> Playing the video muted for 30 seconds.';
-      videoContainer.style.display = 'block';
-      var videoIframe = document.createElement('iframe');
-      videoIframe.src = buildEmbedUrl(videoId, { mute: true, controls: 1 });
-      videoIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      videoIframe.allowFullscreen = true;
-      videoContainer.appendChild(videoIframe);
-    } else if (mode === 'ulta') {
-      hint.innerHTML = '<strong>Ulta Pulta Round:</strong> Video is playing muted while a different song audio plays for 30 seconds.';
-      videoContainer.style.display = 'block';
-      var videoIframe = document.createElement('iframe');
-      videoIframe.src = buildEmbedUrl(videoId, { mute: true, controls: 1 });
-      videoIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      videoIframe.allowFullscreen = true;
-      videoContainer.appendChild(videoIframe);
+    loadUrls(mode, question).then(urlLine => {
+      if (!urlLine) {
+        hint.innerHTML = 'No URL found for question ' + question + ' in mode ' + mode + '.';
+        return;
+      }
 
-      var audioIframe = document.createElement('iframe');
-      audioIframe.src = buildEmbedUrl(audioId, { mute: false, controls: 0 });
-      audioIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      audioIframe.className = 'hidden-audio';
-      hiddenAudio.appendChild(audioIframe);
-    } else {
-      hint.innerHTML = 'Unknown mode: ' + mode + '. Use mode=audio, mode=video, or mode=ulta.';
-    }
+      if (mode === 'audio') {
+        hint.innerHTML = '<strong>Audio Round:</strong> Playing YouTube song for 30 seconds. Video is hidden.';
+        var audioIframe = document.createElement('iframe');
+        audioIframe.src = urlLine;
+        audioIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        audioIframe.className = 'hidden-audio';
+        hiddenAudio.appendChild(audioIframe);
+        setTimeout(function() {
+          hiddenAudio.innerHTML = '';
+          hint.innerHTML = '<strong>Audio Round Complete:</strong> 30 seconds played.';
+        }, 30000);
+      } else if (mode === 'video') {
+        hint.innerHTML = '<strong>Video Round:</strong> Playing the video for 30 seconds.';
+        videoContainer.style.display = 'block';
+        var videoIframe = document.createElement('iframe');
+        videoIframe.src = urlLine;
+        videoIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        videoIframe.allowFullscreen = true;
+        videoContainer.appendChild(videoIframe);
+        setTimeout(function() {
+          videoContainer.innerHTML = '';
+          hint.innerHTML = '<strong>Video Round Complete:</strong> 30 seconds played.';
+        }, 30000);
+      } else if (mode === 'ulta') {
+        var parts = urlLine.split(',');
+        if (parts.length !== 2) {
+          hint.innerHTML = 'Invalid URL format for ulta pulta question ' + question + '.';
+          return;
+        }
+        var videoUrl = parts[0].trim();
+        var audioUrl = parts[1].trim();
+        hint.innerHTML = '<strong>Ulta Pulta Round:</strong> Video is playing while a different song audio plays for 30 seconds.';
+        videoContainer.style.display = 'block';
+        var videoIframe = document.createElement('iframe');
+        videoIframe.src = videoUrl;
+        videoIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        videoIframe.allowFullscreen = true;
+        videoContainer.appendChild(videoIframe);
+
+        var audioIframe = document.createElement('iframe');
+        audioIframe.src = audioUrl;
+        audioIframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        audioIframe.className = 'hidden-audio';
+        hiddenAudio.appendChild(audioIframe);
+        setTimeout(function() {
+          videoContainer.innerHTML = '';
+          hiddenAudio.innerHTML = '';
+          hint.innerHTML = '<strong>Ulta Pulta Round Complete:</strong> 30 seconds played.';
+        }, 30000);
+      } else {
+        hint.innerHTML = 'Unknown mode: ' + mode + '. Use mode=audio, mode=video, or mode=ulta.';
+      }
+    }).catch(error => {
+      hint.innerHTML = 'Error loading URLs: ' + error.message + '. Make sure the page is served from a web server.';
+    });
   </script>
 </body>
 </html>
